@@ -1,0 +1,15 @@
+<% if current_user.states == "curious for similar word" %>
+	<%= form_for [@user, @mikutalk], remote: true, :url => similar_user_mikutalk_path(@user, @mikutalk) do |f| %>
+		<%= f.text_field :question, id: "input_box_text", class: "text_i", placeholder: "Tell a similar word!" %>
+	<%end%>
+<%elsif current_user.states == "one_of"%>
+	<%= form_for [@user, @mikutalk], remote: true, :url => oneof_user_mikutalk_path(@user, @mikutalk) do |f| %>
+		<%= f.text_field :question, id: "input_box_text", class: "text_i", placeholder: "Tell an abstraction!" %>
+    <%end%>
+<%else%>
+	<%= form_for [@user, @user.mikutalks.build], remote: true do |f| %>
+		<div id="send_left">
+	    		<%= f.text_field :question, id: "input_box_text", class: "text_i", placeholder: "Talk to Alice" %>
+	    </div>
+	<%end%>
+<%end%>

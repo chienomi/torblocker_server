@@ -1,0 +1,135 @@
+<div class="ue_42">
+<%= render 'alert' %>
+</div>
+
+<div class="container" style="margin-top:42px;">
+  <div class="row">
+    <div class="col-md-12"> <!-- user start -->
+      <div class="bio_e_r">
+        <% if @user != nil && @user == current_user%>
+          <%= button_to 'Edit your profile', edit_user_path(@user.id), method: :get, class: "btn btn-default btn-sm", style: "display: inline-block;"%>
+        <%else%>
+        <%end%>
+      </div>
+      <div align="center" style="font-weight: 900; font-size: 12px; margin-top: 2px;">
+        <%= link_to @user.user_name, @user, class: "link" %>
+      </div>
+    </div> <!-- user end -->
+  </div>
+<% if @user != nil %>
+  <% if @user == current_user || @demo == 1 %>
+    <div class="row">
+      <div class="col-md-6">
+        <h4 align="center">Preferences</h4>
+        <script type="text/javascript">
+          $(function(){
+            <% if @user.tor == 0 %> document.getElementById("ckbox1").checked = true <%end%>
+            $("#ckbox1").on('click', function () {
+              if (document.getElementById("ckbox1").checked) //false means blocked
+                {
+                  $.get('/u/<%=@user.id%>/tor?b=0')
+                  console.log("unblocked");
+                }
+              else if (!document.getElementById("ckbox1").checked)
+                {
+                  $.get('/u/<%=@user.id%>/tor?b=1')
+                  console.log("blocked");
+                }
+            });
+            <% if @user.blacklist == 0 %> document.getElementById("ckbox2").checked = true <%end%>
+            $("#ckbox2").on('click', function () {
+              if (document.getElementById("ckbox2").checked) //false means blocked
+                {
+                  $.get('/u/<%=@user.id%>/blacklist?b=0')
+                  console.log("unblocked");
+                }
+              else if (!document.getElementById("ckbox2").checked)
+                {
+                  $.get('/u/<%=@user.id%>/blacklist?b=1')
+                  console.log("blocked");
+                }
+            });
+          });
+        </script>
+        <div class="make-switch">
+          <div style="position:absolute;padding-left:10px;font-size:18px;line-height: 32px;">Tor browser</div>
+          <div align="right" style="padding-right:10px;">
+          <label class="switch">
+            <input type="checkbox" id="ckbox1">
+            <div class="slider round"></div>
+          </label>
+        </div>
+      </div>
+
+      <h4 align="center" style="padding-top:20px;">API Reference</h4>
+      <%if @ruby_or_curl == 0 %> <!--   -->
+        <span style="font-weight:900;">
+        <span style="color: #ff2d00;">Ruby</span>
+          <%if @demo == 1%>
+            <%= link_to "curl", demo_curl_users_path, class: "link_rv", style:"margin-left:1em;"  %>
+          <%else%>
+            <%= link_to 'curl',curl_user_path(@user), class: "link_rv", style:"margin-left:1em;" %>
+          <%end%>
+        </span>
+
+<pre><code>
+# in your console
+$ gem insall torblocker
+
+# in your .rb file or .html.erb file
+ip = request.remote_ip
+token = "<%=@auth_token%>"
+
+Torblocker.trusted?(ip, token)
+# This returns true if the IP is not from Tor browser.
+
+Torblocker.untrusted?(ip, token)
+# This returns true if the IP is from Tor browser.
+</code></pre>
+
+  <% elsif @ruby_or_curl == 1 %><!--   -->
+    <span style="font-weight:900;">
+      <% if @demo == 1 %>
+        <%= link_to "Ruby", demo_users_path, class: "link_rv", style:"margin-right:1em;" %>
+      <% else %>
+        <%= link_to 'Ruby',user_path(@user), class: "link_rv", style:"margin-right:1em;" %>
+      <% end %>
+      <span style="color:#ff2d00;">curl</span>
+    </span>
+
+<pre><code>
+# in your console
+$ curl https://torblocker.com/v1?ip=ip_to_be_checked -H "Authorization:Token token=<%=@auth_token%>"
+
+# This returns 1 if ip_to_be_checked is from Tor browser or our blacklist, and 0 otherwise
+
+# change ip_to_be_checked to a client IP
+# e.g.) https://torblocker.com/v1?ip=255.255.0.1
+</code></pre>
+
+          <% end %><!--   -->
+        </div>
+
+        <div class="col-md-6">
+          <h4 align="center">Logs</h4>
+          <div class="bg_gray_2">
+            <% @user.history.reverse.each do |x|%>
+              <% i = Ip.find_by(id: x[0])%>
+              <% if i != nil %>
+                <%= i.a %> was blocked (
+                <% if i.p[0] == 0 %>Tor<% else %>Others<% end %>)
+                <% if x[1] != nil %>
+                  , <%= time_ago_in_words(Time.at(x[1])).gsub(/about/,"").gsub(/less than/,"") %> ago
+                <% end %>
+              <% end %>
+              <br>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    <% end %>
+  <% end %>
+
+</div>
+

@@ -1,0 +1,52 @@
+
+<div class="title_h1_padding">
+  <%= image_tag 'neco_w.png', style: "width: 120px;"%>
+<!--  <h1 class="cl_w" style="margin: 10px 10px;">Hi! We are Torblocker</h1> -->
+<h2 class="cl_w2 title_down" >Security API to block access from Tor browser and untrusted IPs in one line of code.</h2>
+</div>
+<div align="center">
+<h4 class="cl_w2" align="center" style="margin: 10px 10px; margin-top: 24px; font-size: 17px; color: rgb(252, 252, 253); position: absolute; bottom:12px; left: calc(50% + 34px);  margin-left: -110px;">
+
+  <span style="display:inline-box; margin-right:1em;margin-left:1em;margin-bottom:1em;"><a href="https://twitter.com/torblocker" class="link_b" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></span>
+  <span style="display:inline-box; margin-right:1em;margin-left:1em;margin-bottom:1em;"><a href="https://github.com/chienomi/torblocker" class="link_b" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a></span>
+  <span style="display:inline-box; margin-right:1em;margin-left:1em;margin-bottom:1em;"><a class="link_b" href="mailto:hq@torblocker.com"><i class="fa fa-envelope" aria-hidden="true"></i></a></span>
+
+</h4>
+</div>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $(".click_to_scr").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 500, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+});
+</script>
+<div class="row" style="max-width:500px; margin: auto; left:0; right:0; margin-top: 20px;" align="center">
+	<h4 style="color:#fff;" class="title_down">Let's get started via</h4>
+  <br>
+  <%= link_to user_facebook_omniauth_authorize_path, class: "btn btn-default_w", style: "color: #fff;" do %><i class="fa fa-facebook-square" aria-hidden="true"></i>&nbsp;&nbsp; Facebook <% end %>
+  <%= link_to user_google_omniauth_authorize_path, class: "btn btn-default_w", style: "color: #fff;" do %><i class="fa fa-google" aria-hidden="true"></i>&nbsp;&nbsp; Google+ <% end %>
+
+  <h4 style="color:#fff;" style="margin:10px;">or</h4>
+
+  <%= button_to "See Demo", demo_users_path, method: :get, class: "btn btn-default_w", onfocus: "this.blur();", title: "Need Demo?" %>
+  <h4 style="color:#fff;" class="title_down">It's free!</h4>
+</div>

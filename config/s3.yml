@@ -1,0 +1,11 @@
+# config/s3.yml
+development:
+  bucket:
+  access_key_id:
+  secret_access_key:
+  s3_host_name:
+production:
+  bucket:
+  access_key_id:
+  secret_access_key:
+  s3_host_name:

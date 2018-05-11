@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username:
+  password:
+  pool: 5
+
+development:
+  <<: *default
+  database: torblocker_develop
+  port: 5432
+  host: localhost
+
+production:
+  <<: *default
+  username:
+  password:
+  database:
+  host: 0.0.0.0

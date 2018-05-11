@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    <%if @search_title != nil%><%= @search_title + ' - ' %><%end%><%if params[:category] != nil%><%= params[:category] + ' - ' %><%end%><%if @evangelist != nil%><%if @evangelist.title != nil%><%=@evangelist.title + ' - '%><%end%><%end%>Torblocker | API to block unwanted access</title>
+  <meta charset="utf-8">
+  <%= csrf_meta_tags %>
+  <%if @evangelist == nil%><meta name="description" content="Torblocker is a simple security API to block access from Tor browser and untrusted IPs in one line of code."/><%end%>
+  <meta name="keywords" content="Tor browser,ip filter">
+  <meta name="author" content="Torblocker">
+
+  <%= include_gon(:init => true) %>
+  <%= stylesheet_link_tag 'application', media: 'all'%>
+<meta name="google-site-verification" content="es3IVba8z2FOq8LoKOMn41JumE02D14BZEtSlMglllU" />
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.5.0/highlight.min.js"></script>
+<%= javascript_include_tag "application"%>
+
+  <script async src='https://www.google.com/recaptcha/api.js'></script>
+
+  <%= favicon_link_tag 'neco_b.png',type: 'image/png' %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript">
+// power tip
+  $(function(){
+  $('.pl .top_dropdown').powerTip({ placement: 'se' });
+  });
+  $(function(){
+    $('#like_list_e').powerTip({
+    mouseOnToPopup: 'true',
+    smartPlacement: 'true'
+    });
+    $('#like_list_e').data('powertiptarget', 'myToolTip');
+  });
+  $(function(){
+    $('.tip').powerTip({
+    mouseOnToPopup: 'true',
+    smartPlacement: 'true'
+    });
+  });
+
+  window.setTimeout(function() {
+    //$(".custom-alert").alert('close'); <--- Do not use this
+
+    $(".custom-alert").slideUp(500, function() {
+        $(this).remove();
+    });
+}, 4000);
+
+  </script>
+</head>
+<body>
+  <script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1163491823693480',
+      xfbml      : true,
+      version    : 'v2.7'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
+<!-- header -->
+<header id = "header">
+<div class="nav_bg_w_2">
+<div class="nav_bg_w">
+  <%if @head_type == 0 %>
+  <div class="nav_bg_i"></div>
+  <%else%>
+  <div class="nav_bg"></div>
+  <%end%>
+  <div class="nav_bg_m"></div>
+</div>
+
+<nav class="nav">
+  <div class="ac-gn-content">
+ <!-- ph start -->
+      <ul class="navul ph">
+    <li class="navli" ><%= link_to root_path do %><div class="icon" id ="kao_action"></div><%end%></li>
+
+    <% if @index_tag == 0 %>
+      <li class="pull-left navli" id="to_hide_tags" style="padding-right: 21px; height:2em;">
+        <a href="#menu-toggle" class="btn btn-default_w" id="menu-toggle" style="border-radius:100px;"><i class="fa fa-tags" aria-hidden="true"></i></a>
+      </li>
+    <% end %>
+
+    <% if user_signed_in? %>
+      <li class="magicfont pull-right navli" style="padding-right: 0em;">
+        <div class="dropdown" style="margin-top:-2px;">
+          <button class="btn btn-default_w dropdown-toggle" type="button" onfocus="this.blur();" href="#" data-toggle="dropdown" title="Thank you for using Torblocker!"><i class="fa fa-user" aria-hidden="true"></i>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation"><%= link_to "Dash Board", current_user , class: "link top_dropdown", role:"menuitem", tabindex: "-1"%></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><%= link_to "LOG OUT", destroy_user_session_path, method: :delete , class: "link", role:"menuitem", tabindex: "-1"%></li>
+          </ul>
+        </div>
+      </li>
+
+    <% else %>
+      <li class="magicfont pull-right navli" style="padding-right: 0em;">
+        <div class="dropdown" style="margin-top:-2px;">
+          <button class="btn btn-default_w" onfocus="this.blur();" href="#" type="button" data-toggle="dropdown" title="Thank you for using Torblocker!"><i class="fa fa-user" aria-hidden="true"></i>
+          </button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation" style="line-height:18px;"><span role="menuitem" tabindex="-1" style="color: #6f7c82; font-size: 12px; padding: 3px 20px;">Sign up or log in via</span></li>
+            <li role="presentation"><%= link_to user_facebook_omniauth_authorize_path, role:"menuitem", tabindex: "-1" do %><i class="fa fa-facebook-square" aria-hidden="true"></i>&nbsp;&nbsp; Facebook <% end %></li>
+            <li role="presentation"><%= link_to user_google_omniauth_authorize_path, role:"menuitem", tabindex: "-1" do %><i class="fa fa-google" aria-hidden="true"></i>&nbsp;&nbsp; Google+ <% end %></li>
+          </ul>
+        </div>
+      </li>
+
+    <% end %>
+  </ul>
+<!-- ph end -->
+<!-- nph start -->
+  <ul class="navul nph">
+    <li class="navli" ><%= link_to root_path do %><div class="icon" id ="kao_action"></div><%end%></li>
+
+    <% if @index_tag == 0 %>
+      <li class="pull-left navli" id="to_hide_tags" style="padding-right: 21px; height:2em;">
+        <a href="#menu-toggle" class="btn btn-default_w" id="menu-toggle" style="border-radius:100px;"><i class="fa fa-tags" aria-hidden="true"></i></a>
+      </li>
+    <% end %>
+
+    <% if user_signed_in? %>
+
+      <li class="magicfont pull-right navli" style="padding-right: 0em;">
+
+        <div class="dropdown" style="margin-top:-2px;">
+          <button class="btn btn-default_w dropdown-toggle" type="button" onfocus="this.blur();" href="#" data-toggle="dropdown" title="Thank you for using Torblocker!"><%= current_user.user_name %>
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation"><%= link_to "Dash Board", current_user , class: "link top_dropdown", role:"menuitem", tabindex: "-1"%></li>
+            <li role="presentation" class="divider"></li>
+            <li role="presentation"><%= link_to "LOG OUT", destroy_user_session_path, method: :delete , class: "link", role:"menuitem", tabindex: "-1"%></li>
+          </ul>
+        </div>
+      </li>
+
+    <% else %>
+      <li class="magicfont pull-right navli" style="padding-right: 0em;">
+        <div class="dropdown" style="margin-top:-2px;">
+          <button class="btn btn-default_w" onfocus="this.blur();" href="#" type="button" data-toggle="dropdown" title="Thank you for using Torblocker!">Sign in
+          <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation" style="line-height:18px;"><span role="menuitem" tabindex="-1" style="color: #6f7c82; font-size: 12px; padding: 3px 20px;">via</span></li>
+            <li role="presentation"><%= link_to user_facebook_omniauth_authorize_path, role:"menuitem", tabindex: "-1" do %><i class="fa fa-facebook-square" aria-hidden="true"></i>&nbsp;&nbsp; Facebook <% end %></li>
+            <li role="presentation"><%= link_to user_google_omniauth_authorize_path, role:"menuitem", tabindex: "-1" do %><i class="fa fa-google" aria-hidden="true"></i>&nbsp;&nbsp; Google+ <% end %></li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="magicfont pull-right navli" style="padding-right: 1em;margin-top:-2px;">
+        <%= button_to "Demo", demo_users_path, method: :get, class: "btn btn-default_w dropdown-toggle", onfocus: "this.blur();", title: "Need Demo?" %>
+      </li>
+
+    <% end %>
+  </ul>
+  <!-- nph end -->
+  </div>
+</nav>
+</div>
+</header>
+
+<div id="pop_login" class="pop">
+	<%= render "layouts/poplogin" %>
+</div>
+
+<div id="pop_signin" class="pop">
+	<%= render "layouts/popsignin" %>
+</div>
+
+
+<div id="mask"></div>
+
+<script type="text/javascript">
+$(document).ready(function(){$("a.pop_login").click(function(){var i=$(window).width(),o=$(window).height();$("#pop_login").css({left:i/2-$("#pop_login").width()/2,top:o/2-$("#pop_login").height()/2}),$("#mask").fadeTo("slow",.5),$("#pop_login").fadeTo("slow",1)}),$("#mask").click(function(){$("#pop_login,#mask").hide()})}),$(document).ready(function(){$("a.pop_signin").click(function(){var i=$(window).width(),o=$(window).height();$("#pop_signin").css({left:i/2-$("#pop_signin").width()/2,top:o/2-$("#pop_signin").height()/2}),$("#mask").fadeTo("slow",.5),$("#pop_signin").fadeTo("slow",1)}),$("#mask").click(function(){$("#pop_signin,#mask").hide()})}),$(document).ready(function(){$("#loginfirst,.loginfirst").click(function(){var i=$(window).width(),o=$(window).height();$("#pop_loginfirst").css({left:i/2-$("#pop_loginfirst").width()/2,top:o/2-$("#pop_loginfitst").height()/2}),$("#mask").fadeTo("slow",.5),$("#pop_loginfirst").fadeTo("slow",1)}),$("#mask").click(function(){$("#pop_loginfirst,#mask").hide()}),$("#button_to_login").click(function(){$("#pop_loginfirst").hide();var i=$(window).width(),o=$(window).height();$("#pop_login").css({left:i/2-$("#pop_login").width()/2,top:o/2-$("#pop_login").height()/2}),$("#pop_login").fadeTo("slow",1)}),$("#button_to_signup").click(function(){$("#pop_loginfirst").hide();var i=$(window).width(),o=$(window).height();$("#pop_signin").css({left:i/2-$("#pop_signin").width()/2,top:o/2-$("#pop_signin").height()/2}),$("#pop_signin").fadeTo("slow",1)})}),$(document).ready(function(){$("#pop_login,#pop_signin").bind("ajax:success",function(i,o,n,p){console.log("success")}).bind("ajax:error",function(i,o,n,p){console.log(o.responseText)})});
+</script>
+
+<div class = "container_3 top_cover" >
+	<%=yield%>
+</div>
+<!--Start of Tawk.to Script-->
+
+<!--End of Tawk.to Script-->
+<% if @head_type != 0 %>
+  <%= render 'layouts/footer' %>
+<% end %>
+  <!-- google analytics -->
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-83910425-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+<!-- Place this tag in your head or just before your close body tag. -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+</html>

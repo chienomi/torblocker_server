@@ -1,0 +1,13 @@
+<div id="output_box" align="left">
+	<ul id="output_list">
+		<% if @user.id == 2 %>
+			Alice> Welcome to Alice's secret house. Just come in and talk to me!<br>
+		<%else%>
+		Alice> <% if user_signed_in? %>
+			Howdy, <%= current_user.user_name%>?
+			<%else%>
+			Howdy?
+			<%end%><br>
+		<%end%>
+	</ul>
+</div>
